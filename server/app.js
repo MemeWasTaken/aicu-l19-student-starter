@@ -125,7 +125,6 @@ export function createTicketApplication({
     const url = new URL(request.url, `http://${request.headers.host}`);
     const requestId = requestIdFactory();
     let operation = "serve_static";
-    let ticketTitle = "unknown";
 
     try {
       if (request.method === "GET" && url.pathname === "/api/tickets") {
@@ -137,7 +136,6 @@ export function createTicketApplication({
       if (request.method === "POST" && url.pathname === "/api/tickets") {
         operation = "create_ticket";
         const body = await readJsonBody(request);
-        ticketTitle = typeof body.title === "string" ? body.title : "unknown";
         const input = normalizeTicketInput(body);
         const fieldErrors = validateTicketInput(input);
 
