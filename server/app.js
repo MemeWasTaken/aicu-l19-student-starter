@@ -156,14 +156,14 @@ export function createTicketApplication({
 
       serveStatic(request, response, rootDir);
     } catch (error) {
-      logger.error(
-        `ERROR operation=${operation} request_id=${requestId} ticket=${ticketTitle} error=${
-          error instanceof Error ? error.message : "Unknown error"
-        }`
-      );
+      logger.error({
+        operation,
+        errorCode: "DB_WRITE_FAILED",
+        requestId
+      });
       sendJson(response, 500, {
-        message: "Errore interno del server.",
-        detail: error instanceof Error ? error.message : "Unknown error"
+        code: "INTERNAL_ERROR",
+        message: "Errore interno del server."
       });
     }
   });
